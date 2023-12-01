@@ -1,5 +1,5 @@
-mod day1;
+mod solutions;
 
 fn main() {
-    day1::solution();
+    solutions::get_solution(1);
 }
