@@ -1,28 +1,56 @@
 //! https://adventofcode.com/2023/day/1
 
 pub fn solution(part: u32) {
-	if part == 1 {
-		// One liner for fun
-		println!(
-			"{}",
-			get_input()
-				.split("\n")
-				.map(|line| {
-					let line_digits: Vec<u32> = line
-						.chars()
-						.map(|c| c.to_digit(10))
-						.filter(|o| o.is_some())
-						.map(|s| s.unwrap())
-						.collect();
+    if part == 1 {
+        println!(
+            "{}",
+            get_input()
+                .lines()
+                .map(|line| {
+                    let line_digits: Vec<u32> = line
+                        .chars()
+                        .map(|c| c.to_digit(10))
+                        .filter(|o| o.is_some())
+                        .flatten()
+                        .collect();
 
-					return 10 * line_digits.first().unwrap() + line_digits.last().unwrap();
-				})
-				.sum::<u32>()
-		)
-	}
-	else {
+                    10 * line_digits.first().unwrap() + line_digits.last().unwrap()
+                })
+                .sum::<u32>()
+        )
+    } else {
+        let input = get_input();
+        let words_digit_map = [
+            "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+        ];
 
-	}
+        println!(
+            "{}",
+            input
+                .lines()
+                .map(|line| {
+                    let mut processed_line = String::from(line);
+
+                    for (i, word) in words_digit_map.iter().enumerate() {
+                        let digit = (i + 1).to_string();
+                        processed_line = processed_line.replace(word, &digit);
+                    }
+
+                    processed_line
+                })
+                .map(|line| {
+                    let line_digits: Vec<u32> = line
+                        .chars()
+                        .map(|c| c.to_digit(10))
+                        .filter(|o| o.is_some())
+                        .flatten()
+                        .collect();
+
+                    10 * line_digits.first().unwrap() + line_digits.last().unwrap()
+                })
+                .sum::<u32>()
+        );
+    }
 }
 
 fn get_input() -> String {
