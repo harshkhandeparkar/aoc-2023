@@ -51,18 +51,18 @@ pub fn solution(part: u32) {
                         .map(|(digit, word)| (digit, line.find(word)))
                         .filter(|(_, loc)| loc.is_some())
                         .map(|(digit, loc)| (digit, loc.unwrap()))
-						.collect();
-					digit_occurences.sort_by(|a, b| a.1.cmp(&b.1));
-					let first_digit = digit_occurences.first().unwrap().0;
+                        .collect();
+                    digit_occurences.sort_by(|a, b| a.1.cmp(&b.1));
+                    let first_digit = digit_occurences.first().unwrap().0;
 
-					let mut digit_occurences: Vec<(&u32, usize)> = words_digit_map
+                    let mut digit_occurences: Vec<(&u32, usize)> = words_digit_map
                         .iter()
                         .map(|(digit, word)| (digit, line.rfind(word)))
                         .filter(|(_, loc)| loc.is_some())
                         .map(|(digit, loc)| (digit, loc.unwrap()))
-						.collect();
-					digit_occurences.sort_by(|a, b| a.1.cmp(&b.1));
-					let last_digit = digit_occurences.last().unwrap().0;
+                        .collect();
+                    digit_occurences.sort_by(|a, b| a.1.cmp(&b.1));
+                    let last_digit = digit_occurences.last().unwrap().0;
 
                     10 * first_digit + last_digit
                 })
