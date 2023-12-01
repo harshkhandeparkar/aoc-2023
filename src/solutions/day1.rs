@@ -20,8 +20,25 @@ pub fn solution(part: u32) {
         )
     } else {
         let input = get_input();
-        let words_digit_map = [
-            "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+        let words_digit_map: [(u32, &str); 18] = [
+            (1, "1"),
+            (2, "2"),
+            (3, "3"),
+            (4, "4"),
+            (5, "5"),
+            (6, "6"),
+            (7, "7"),
+            (8, "8"),
+            (9, "9"),
+            (1, "one"),
+            (2, "two"),
+            (3, "three"),
+            (4, "four"),
+            (5, "five"),
+            (6, "six"),
+            (7, "seven"),
+            (8, "eight"),
+            (9, "nine"),
         ];
 
         println!(
@@ -29,24 +46,25 @@ pub fn solution(part: u32) {
             input
                 .lines()
                 .map(|line| {
-                    let mut processed_line = String::from(line);
+                    let mut digit_occurences: Vec<(&u32, usize)> = words_digit_map
+                        .iter()
+                        .map(|(digit, word)| (digit, line.find(word)))
+                        .filter(|(_, loc)| loc.is_some())
+                        .map(|(digit, loc)| (digit, loc.unwrap()))
+						.collect();
+					digit_occurences.sort_by(|a, b| a.1.cmp(&b.1));
+					let first_digit = digit_occurences.first().unwrap().0;
 
-                    for (i, word) in words_digit_map.iter().enumerate() {
-                        let digit = (i + 1).to_string();
-                        processed_line = processed_line.replace(word, &digit);
-                    }
+					let mut digit_occurences: Vec<(&u32, usize)> = words_digit_map
+                        .iter()
+                        .map(|(digit, word)| (digit, line.rfind(word)))
+                        .filter(|(_, loc)| loc.is_some())
+                        .map(|(digit, loc)| (digit, loc.unwrap()))
+						.collect();
+					digit_occurences.sort_by(|a, b| a.1.cmp(&b.1));
+					let last_digit = digit_occurences.last().unwrap().0;
 
-                    processed_line
-                })
-                .map(|line| {
-                    let line_digits: Vec<u32> = line
-                        .chars()
-                        .map(|c| c.to_digit(10))
-                        .filter(|o| o.is_some())
-                        .flatten()
-                        .collect();
-
-                    10 * line_digits.first().unwrap() + line_digits.last().unwrap()
+                    10 * first_digit + last_digit
                 })
                 .sum::<u32>()
         );
