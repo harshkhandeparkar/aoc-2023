@@ -1,23 +1,28 @@
 //! https://adventofcode.com/2023/day/1
 
-pub fn solution() {
-    // One liner for fun
-    println!(
-        "{}",
-        get_input()
-            .split("\n")
-            .map(|line| {
-                let line_digits: Vec<u32> = line
-                    .chars()
-                    .map(|c| c.to_digit(10))
-                    .filter(|o| o.is_some())
-                    .map(|s| s.unwrap())
-                    .collect();
+pub fn solution(part: u32) {
+	if part == 1 {
+		// One liner for fun
+		println!(
+			"{}",
+			get_input()
+				.split("\n")
+				.map(|line| {
+					let line_digits: Vec<u32> = line
+						.chars()
+						.map(|c| c.to_digit(10))
+						.filter(|o| o.is_some())
+						.map(|s| s.unwrap())
+						.collect();
 
-                return 10 * line_digits.first().unwrap() + line_digits.last().unwrap();
-            })
-            .sum::<u32>()
-    )
+					return 10 * line_digits.first().unwrap() + line_digits.last().unwrap();
+				})
+				.sum::<u32>()
+		)
+	}
+	else {
+
+	}
 }
 
 fn get_input() -> String {
