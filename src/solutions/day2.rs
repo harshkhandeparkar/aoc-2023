@@ -21,7 +21,7 @@ pub fn solution(part: u32) {
                         })
                         .collect();
 
-                    impossible_reveals.len() == 0
+                    impossible_reveals.is_empty()
                 })
                 .map(|(game_i, _)| game_i + 1)
                 .sum::<usize>()
@@ -29,24 +29,29 @@ pub fn solution(part: u32) {
     } else {
         println!(
             "{}",
-            input.iter().map(|game| {
-                let mut min_cubes: HashMap<String, u32> =
-                    HashMap::from([("red".into(), 0), ("green".into(), 0), ("blue".into(), 0)]);
+            input
+                .iter()
+                .map(|game| {
+                    let mut min_cubes: HashMap<String, u32> =
+                        HashMap::from([("red".into(), 0), ("green".into(), 0), ("blue".into(), 0)]);
 
-                for reveal in game {
-                    for color in ["red".to_string(), "green".to_string(), "blue".to_string()] {
-                        min_cubes.insert(
-                            color.clone(),
-                            cmp::max(
-                                *min_cubes.get(&color).unwrap(),
-                                *reveal.get(&color).unwrap(),
-                            ),
-                        );
+                    for reveal in game {
+                        for color in ["red".to_string(), "green".to_string(), "blue".to_string()] {
+                            min_cubes.insert(
+                                color.clone(),
+                                cmp::max(
+                                    *min_cubes.get(&color).unwrap(),
+                                    *reveal.get(&color).unwrap(),
+                                ),
+                            );
+                        }
                     }
-                }
 
-                min_cubes.get("red").unwrap() * min_cubes.get("green").unwrap() * min_cubes.get("blue").unwrap()
-            }).sum::<u32>()
+                    min_cubes.get("red").unwrap()
+                        * min_cubes.get("green").unwrap()
+                        * min_cubes.get("blue").unwrap()
+                })
+                .sum::<u32>()
         );
     }
 }
@@ -156,17 +161,17 @@ fn get_input() -> Vec<Vec<HashMap<String, u32>>> {
     raw_input
         .lines()
         .map(|line| {
-            let reveals = line.split(":").last().unwrap().trim();
+            let reveals = line.split(':').last().unwrap().trim();
 
             reveals
-                .split(";")
+                .split(';')
                 .map(|reveal| {
                     let cubes: Vec<(String, u32)> = reveal
                         .trim()
-                        .split(",")
+                        .split(',')
                         .map(|cube| {
                             cube.trim()
-                                .split(" ")
+                                .split(' ')
                                 .map(|s| s.to_string())
                                 .collect::<Vec<String>>()
                         })
