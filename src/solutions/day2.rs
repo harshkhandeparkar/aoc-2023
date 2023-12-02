@@ -1,10 +1,11 @@
+use std::cmp;
 use std::collections::HashMap;
 
 pub fn solution(part: u32) {
-    if part == 1 {
-        let input = get_input();
-        let max_cubes = HashMap::from([("red", 12), ("green", 13), ("blue", 14)]);
+    let input = get_input();
 
+    if part == 1 {
+        let max_cubes = HashMap::from([("red", 12), ("green", 13), ("blue", 14)]);
         println!(
             "{:?}",
             input
@@ -22,10 +23,31 @@ pub fn solution(part: u32) {
 
                     impossible_reveals.len() == 0
                 })
-				.map(|(game_i, _)| game_i + 1)
-				.sum::<usize>()
-        )
+                .map(|(game_i, _)| game_i + 1)
+                .sum::<usize>()
+        );
     } else {
+        println!(
+            "{}",
+            input.iter().map(|game| {
+                let mut min_cubes: HashMap<String, u32> =
+                    HashMap::from([("red".into(), 0), ("green".into(), 0), ("blue".into(), 0)]);
+
+                for reveal in game {
+                    for color in ["red".to_string(), "green".to_string(), "blue".to_string()] {
+                        min_cubes.insert(
+                            color.clone(),
+                            cmp::max(
+                                *min_cubes.get(&color).unwrap(),
+                                *reveal.get(&color).unwrap(),
+                            ),
+                        );
+                    }
+                }
+
+                min_cubes.get("red").unwrap() * min_cubes.get("green").unwrap() * min_cubes.get("blue").unwrap()
+            }).sum::<u32>()
+        );
     }
 }
 
