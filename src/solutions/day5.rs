@@ -39,7 +39,7 @@ pub fn solution(part: u32) {
 			let mut seed_iter = input.seeds.iter();
 			while let Some(seed_start) = seed_iter.next() {
 				if let Some(seed_len) = seed_iter.next() {
-					if *seed_start <= traversed_location && traversed_location <= *seed_start + *seed_len - 1 {
+					if *seed_start <= traversed_location && traversed_location < *seed_start + *seed_len {
 						best_known_min_location = traversed_location;
 						new_best_found = true;
 						break;
@@ -281,7 +281,7 @@ humidity-to-location map:
 2965556648 2811971059 154696004
 3236840747 3205935028 252772539";
 
-	let seeds = raw_input.lines().next().unwrap().split_once(':').unwrap().1.trim().split_whitespace().map(|num| num.parse::<u64>().unwrap()).collect::<Vec<u64>>();
+	let seeds = raw_input.lines().next().unwrap().split_once(':').unwrap().1.split_whitespace().map(|num| num.parse::<u64>().unwrap()).collect::<Vec<u64>>();
 
 	let maps = raw_input.split_once("\n\n").unwrap().1.split("\n\n").map(|map| map.split_once(':').unwrap().1.trim()).map(|map| {
 		map.lines().map(|line| {
