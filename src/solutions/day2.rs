@@ -1,63 +1,89 @@
 use std::cmp;
 use std::collections::HashMap;
 
-pub fn solution(part: u32) {
-    let input = get_input();
+pub fn solution(part: u32, custom_input: Option<&str>) -> u32 {
+    let input = get_input(custom_input);
 
     if part == 1 {
         let max_cubes = HashMap::from([("red", 12), ("green", 13), ("blue", 14)]);
-        println!(
-            "{:?}",
-            input
-                .iter()
-                .enumerate()
-                .filter(|(_, game)| {
-                    let impossible_reveals: Vec<&HashMap<String, u32>> = game
-                        .iter()
-                        .filter(|reveal| {
-                            reveal.get("red").unwrap() > max_cubes.get("red").unwrap()
-                                || reveal.get("green").unwrap() > max_cubes.get("green").unwrap()
-                                || reveal.get("blue").unwrap() > max_cubes.get("blue").unwrap()
-                        })
-                        .collect();
+        input
+            .iter()
+            .enumerate()
+            .filter(|(_, game)| {
+                let impossible_reveals: Vec<&HashMap<String, u32>> = game
+                    .iter()
+                    .filter(|reveal| {
+                        reveal.get("red").unwrap() > max_cubes.get("red").unwrap()
+                            || reveal.get("green").unwrap() > max_cubes.get("green").unwrap()
+                            || reveal.get("blue").unwrap() > max_cubes.get("blue").unwrap()
+                    })
+                    .collect();
 
-                    impossible_reveals.is_empty()
-                })
-                .map(|(game_i, _)| game_i + 1)
-                .sum::<usize>()
-        );
+                impossible_reveals.is_empty()
+            })
+            .map(|(game_i, _)| game_i as u32 + 1)
+            .sum::<u32>()
     } else {
-        println!(
-            "{}",
-            input
-                .iter()
-                .map(|game| {
-                    let mut min_cubes: HashMap<String, u32> =
-                        HashMap::from([("red".into(), 0), ("green".into(), 0), ("blue".into(), 0)]);
+        input
+            .iter()
+            .map(|game| {
+                let mut min_cubes: HashMap<String, u32> =
+                    HashMap::from([("red".into(), 0), ("green".into(), 0), ("blue".into(), 0)]);
 
-                    for reveal in game {
-                        for color in ["red".to_string(), "green".to_string(), "blue".to_string()] {
-                            min_cubes.insert(
-                                color.clone(),
-                                cmp::max(
-                                    *min_cubes.get(&color).unwrap(),
-                                    *reveal.get(&color).unwrap(),
-                                ),
-                            );
-                        }
+                for reveal in game {
+                    for color in ["red".to_string(), "green".to_string(), "blue".to_string()] {
+                        min_cubes.insert(
+                            color.clone(),
+                            cmp::max(
+                                *min_cubes.get(&color).unwrap(),
+                                *reveal.get(&color).unwrap(),
+                            ),
+                        );
                     }
+                }
 
-                    min_cubes.get("red").unwrap()
-                        * min_cubes.get("green").unwrap()
-                        * min_cubes.get("blue").unwrap()
-                })
-                .sum::<u32>()
-        );
+                min_cubes.get("red").unwrap()
+                    * min_cubes.get("green").unwrap()
+                    * min_cubes.get("blue").unwrap()
+            })
+            .sum::<u32>()
     }
 }
 
-fn get_input() -> Vec<Vec<HashMap<String, u32>>> {
-    let raw_input = "Game 1: 1 red, 5 blue, 10 green; 5 green, 6 blue, 12 red; 4 red, 10 blue, 4 green
+#[test]
+fn check_example_part1() {
+    assert_eq!(
+        solution(
+            1,
+            "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
+Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
+Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"
+                .into()
+        ),
+        8
+    )
+}
+
+#[test]
+fn check_example_part2() {
+    assert_eq!(
+        solution(
+            2,
+            "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
+Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
+Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"
+                .into()
+        ),
+        2286
+    )
+}
+
+fn get_input(custom_input: Option<&str>) -> Vec<Vec<HashMap<String, u32>>> {
+    let raw_input = custom_input.unwrap_or("Game 1: 1 red, 5 blue, 10 green; 5 green, 6 blue, 12 red; 4 red, 10 blue, 4 green
 	Game 2: 2 green, 1 blue; 1 red, 2 green; 3 red, 1 blue; 2 blue, 1 green, 8 red; 1 green, 10 red; 10 red
 	Game 3: 14 red, 9 green, 5 blue; 2 green, 5 red, 7 blue; 1 blue, 14 green; 6 green, 2 red
 	Game 4: 2 green, 3 blue, 9 red; 1 red, 1 green; 4 red, 4 blue; 1 blue, 19 red; 7 red
@@ -156,7 +182,7 @@ fn get_input() -> Vec<Vec<HashMap<String, u32>>> {
 	Game 97: 3 green, 7 red; 2 red, 3 green, 1 blue; 4 green, 1 blue, 4 red; 1 red
 	Game 98: 9 blue, 8 red, 3 green; 10 blue, 3 red; 7 blue, 2 green, 7 red; 4 red, 11 blue, 3 green; 8 red, 9 blue, 2 green
 	Game 99: 5 green, 8 blue; 3 blue, 4 red, 16 green; 1 green, 5 red, 6 blue
-	Game 100: 6 blue, 9 green; 3 green, 6 blue; 5 blue, 1 red";
+	Game 100: 6 blue, 9 green; 3 green, 6 blue; 5 blue, 1 red");
 
     raw_input
         .lines()

@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 
-pub fn solution(part: u32) {
-    let input = get_input();
+pub fn solution(part: u32, custom_input: Option<&str>) -> u128 {
+    let input = get_input(custom_input);
     let card_matching_nums: Vec<u128> = input
         .lines()
         .map(|line| {
@@ -33,17 +33,16 @@ pub fn solution(part: u32) {
         .collect();
 
     if part == 1 {
-        println!(
-            "{}",
-            card_matching_nums
-                .iter()
-                .map(|num_won| if *num_won > 0 {
+        card_matching_nums
+            .iter()
+            .map(|num_won| {
+                if *num_won > 0 {
                     2_u128.pow(*num_won as u32 - 1)
                 } else {
                     0
-                })
-                .sum::<u128>()
-        );
+                }
+            })
+            .sum::<u128>()
     } else {
         let mut num_cards: Vec<u128> = vec![1; card_matching_nums.len()];
 
@@ -57,13 +56,47 @@ pub fn solution(part: u32) {
             }
         }
 
-        println!("{}", num_cards.iter().sum::<u128>());
+        num_cards.iter().sum::<u128>()
     }
 }
 
-fn get_input() -> String {
+#[test]
+fn check_example_part1() {
+    assert_eq!(
+        solution(
+            1,
+            "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
+Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
+Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
+Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83
+Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
+Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11"
+                .into()
+        ),
+        13
+    )
+}
+
+#[test]
+fn check_example_part2() {
+    assert_eq!(
+        solution(
+            2,
+            "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
+Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
+Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
+Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83
+Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
+Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11"
+                .into()
+        ),
+        30
+    )
+}
+
+fn get_input(custom_input: Option<&str>) -> String {
     String::from(
-        "Card   1:  9 32  7 82 10 36 31 12 85 95 |  7 69 23  9 32 22 47 10 95 14 24 71 57 12 31 59 36 68  2 82 38 80 85 21 92
+        custom_input.unwrap_or("Card   1:  9 32  7 82 10 36 31 12 85 95 |  7 69 23  9 32 22 47 10 95 14 24 71 57 12 31 59 36 68  2 82 38 80 85 21 92
 Card   2: 16 35 95 22 59 82 76 60 19 88 | 63 91 16 35 26 82 95 51 53 60 94 59 56 73 28 76 12 44 22 62  8  7 19 38 88
 Card   3:  1 88 48 52 70 19 11 78 94 28 | 19 92 70 18 34 78 83  8 82 87  3 97 66 31 63 17 69  4 75 94 52 54 77 24 45
 Card   4: 72 14  2 92 65 62 16 28 55 91 | 73  8 35  4  9 86 83 51 47 53  3  7 15 52 96 54 49 88 85 30  6 59 81 33 99
@@ -281,5 +314,5 @@ Card 215: 21 31 62 69 74 97 40 45 20 35 | 25 18  1 52 86 84 68 44 15 47 91 99 57
 Card 216: 94 71 33 51 86 70 60 78 12 17 | 98 68 80 56 47 53 41 55 70 37 46 43  8 22 74 48 62  9 10 65  7 60 39 29 97
 Card 217: 70 98 21 38 77 68 67 39 45 72 | 63 57 37 21 94 64  8 96 69 80 84 25 71 26 83 99 81 31 48 42 41 73 54 60 22
 Card 218: 92 44 79 17 16 34 55 78 19  9 | 52 39 85 98 93 46 21 91 20 45  1 89 66 27  4 88 99 41 86 72 38 40 84 81 69",
-    )
+    ))
 }

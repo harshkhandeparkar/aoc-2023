@@ -1,5 +1,5 @@
-pub fn solution(part: u32) {
-    let input = get_input();
+pub fn solution(part: u32, custom_input: Option<&str>) -> u64 {
+    let input = get_input(custom_input);
 
     let min_location = input
         .seeds
@@ -22,7 +22,7 @@ pub fn solution(part: u32) {
         .unwrap();
 
     if part == 1 {
-        println!("{}", min_location);
+        min_location
     } else {
         // Check if any locations less than min_location are feasible and return that
         let mut best_known_min_location = min_location;
@@ -63,8 +63,96 @@ pub fn solution(part: u32) {
             }
         }
 
-        println!("{}", best_known_min_location);
+        best_known_min_location
     }
+}
+
+#[test]
+fn check_example_part1() {
+    assert_eq!(
+        solution(
+            1,
+            "seeds: 79 14 55 13
+
+seed-to-soil map:
+50 98 2
+52 50 48
+
+soil-to-fertilizer map:
+0 15 37
+37 52 2
+39 0 15
+
+fertilizer-to-water map:
+49 53 8
+0 11 42
+42 0 7
+57 7 4
+
+water-to-light map:
+88 18 7
+18 25 70
+
+light-to-temperature map:
+45 77 23
+81 45 19
+68 64 13
+
+temperature-to-humidity map:
+0 69 1
+1 0 69
+
+humidity-to-location map:
+60 56 37
+56 93 4"
+                .into()
+        ),
+        35
+    )
+}
+
+#[test]
+fn check_example_part2() {
+    assert_eq!(
+        solution(
+            2,
+            "seeds: 79 14 55 13
+
+seed-to-soil map:
+50 98 2
+52 50 48
+
+soil-to-fertilizer map:
+0 15 37
+37 52 2
+39 0 15
+
+fertilizer-to-water map:
+49 53 8
+0 11 42
+42 0 7
+57 7 4
+
+water-to-light map:
+88 18 7
+18 25 70
+
+light-to-temperature map:
+45 77 23
+81 45 19
+68 64 13
+
+temperature-to-humidity map:
+0 69 1
+1 0 69
+
+humidity-to-location map:
+60 56 37
+56 93 4"
+                .into()
+        ),
+        46
+    )
 }
 
 #[derive(Debug, Clone)]
@@ -81,8 +169,8 @@ struct Range {
     dst_end: u64,
 }
 
-fn get_input() -> ParsedInput {
-    let raw_input = "seeds: 4088478806 114805397 289354458 164506173 1415635989 166087295 1652880954 340945548 3561206012 483360452 35205517 252097746 1117825174 279314434 3227452369 145640027 2160384960 149488635 2637152665 236791935
+fn get_input(custom_input: Option<&str>) -> ParsedInput {
+    let raw_input = custom_input.unwrap_or("seeds: 4088478806 114805397 289354458 164506173 1415635989 166087295 1652880954 340945548 3561206012 483360452 35205517 252097746 1117825174 279314434 3227452369 145640027 2160384960 149488635 2637152665 236791935
 
 seed-to-soil map:
 3333452986 2926455387 455063168
@@ -290,7 +378,7 @@ humidity-to-location map:
 4193803777 3458707567 101163519
 2182145666 3596258530 28331060
 2965556648 2811971059 154696004
-3236840747 3205935028 252772539";
+3236840747 3205935028 252772539");
 
     let seeds = raw_input
         .lines()
