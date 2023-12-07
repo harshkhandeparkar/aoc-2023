@@ -81,6 +81,14 @@ treb7uchet"
 }
 
 #[test]
+fn check_part1() {
+    assert_eq!(
+        solution(1, None),
+        54708
+    )
+}
+
+#[test]
 fn check_example_part2() {
     assert_eq!(
         solution(
@@ -95,6 +103,14 @@ zoneight234
                 .into()
         ),
         281
+    )
+}
+
+#[test]
+fn check_part2() {
+    assert_eq!(
+        solution(2, None),
+        54087
     )
 }
 

@@ -67,6 +67,14 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"
 }
 
 #[test]
+fn check_part1() {
+	assert_eq!(
+		solution(1, None),
+		2720
+	)
+}
+
+#[test]
 fn check_example_part2() {
     assert_eq!(
         solution(
@@ -80,6 +88,14 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"
         ),
         2286
     )
+}
+
+#[test]
+fn check_part2() {
+	assert_eq!(
+		solution(2, None),
+		71535
+	)
 }
 
 fn get_input(custom_input: Option<&str>) -> Vec<Vec<HashMap<String, u32>>> {

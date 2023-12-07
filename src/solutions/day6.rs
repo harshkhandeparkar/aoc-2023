@@ -44,6 +44,14 @@ Distance:  9  40  200"
     )
 }
 
+#[test]
+fn check_part1() {
+    assert_eq!(
+        solution(1, None),
+        4811940
+    )
+}
+
 fn get_input(custom_input: Option<&str>) -> (Vec<f32>, Vec<f32>) {
     let raw_input = custom_input.unwrap_or(
         "Time:        41     96     88     94

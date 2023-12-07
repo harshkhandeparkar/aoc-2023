@@ -112,6 +112,14 @@ humidity-to-location map:
 }
 
 #[test]
+fn check_part1() {
+    assert_eq!(
+        solution(1, None),
+        382895070
+    )
+}
+
+#[test]
 fn check_example_part2() {
     assert_eq!(
         solution(
@@ -153,6 +161,11 @@ humidity-to-location map:
         ),
         46
     )
+}
+
+#[test]
+fn check_part2() {
+    panic!()
 }
 
 #[derive(Debug, Clone)]
