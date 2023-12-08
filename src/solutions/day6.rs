@@ -1,3 +1,5 @@
+use crate::inputs::day6::PUZZLE_INPUT;
+
 pub fn solution(part: u32, custom_input: Option<&str>) -> u32 {
     let (time_values, distance_values) = get_input(custom_input, part);
 
@@ -64,10 +66,7 @@ fn check_part2() {
 }
 
 fn get_input(custom_input: Option<&str>, part: u32) -> (Vec<f64>, Vec<f64>) {
-    let raw_input = custom_input.unwrap_or(
-        "Time:        41     96     88     94
-Distance:   214   1789   1127   1055",
-    );
+    let raw_input = custom_input.unwrap_or(PUZZLE_INPUT);
 
     let parsed_input = raw_input
         .lines()

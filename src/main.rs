@@ -2,6 +2,7 @@ use std::io;
 use std::io::prelude::*;
 
 mod solutions;
+mod inputs;
 
 fn main() {
     let stdin = io::stdin();
