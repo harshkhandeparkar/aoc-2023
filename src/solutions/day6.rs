@@ -51,7 +51,8 @@ fn check_example_part2() {
         solution(
             2,
             "Time:      7  15   30
-Distance:  9  40  200".into()
+Distance:  9  40  200"
+                .into()
         ),
         71503
     )
@@ -59,10 +60,7 @@ Distance:  9  40  200".into()
 
 #[test]
 fn check_part2() {
-    assert_eq!(
-        solution(2, None),
-        30077773
-    )
+    assert_eq!(solution(2, None), 30077773)
 }
 
 fn get_input(custom_input: Option<&str>, part: u32) -> (Vec<f64>, Vec<f64>) {

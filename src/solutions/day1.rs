@@ -82,10 +82,7 @@ treb7uchet"
 
 #[test]
 fn check_part1() {
-    assert_eq!(
-        solution(1, None),
-        54708
-    )
+    assert_eq!(solution(1, None), 54708)
 }
 
 #[test]
@@ -108,10 +105,7 @@ zoneight234
 
 #[test]
 fn check_part2() {
-    assert_eq!(
-        solution(2, None),
-        54087
-    )
+    assert_eq!(solution(2, None), 54087)
 }
 
 fn get_input(custom_input: Option<&str>) -> String {

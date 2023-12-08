@@ -113,10 +113,7 @@ humidity-to-location map:
 
 #[test]
 fn check_part1() {
-    assert_eq!(
-        solution(1, None),
-        382895070
-    )
+    assert_eq!(solution(1, None), 382895070)
 }
 
 #[test]

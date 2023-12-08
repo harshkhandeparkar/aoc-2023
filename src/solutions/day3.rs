@@ -130,10 +130,7 @@ fn check_example_part1() {
 
 #[test]
 fn check_part1() {
-    assert_eq!(
-        solution(1, None),
-        540212
-    )
+    assert_eq!(solution(1, None), 540212)
 }
 
 #[test]
@@ -159,10 +156,7 @@ fn check_example_part2() {
 
 #[test]
 fn check_part2() {
-    assert_eq!(
-        solution(2, None),
-        87605697
-    )
+    assert_eq!(solution(2, None), 87605697)
 }
 
 #[derive(Clone, Debug)]

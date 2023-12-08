@@ -79,10 +79,7 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11"
 
 #[test]
 fn check_part1() {
-    assert_eq!(
-        solution(1, None),
-        25004
-    )
+    assert_eq!(solution(1, None), 25004)
 }
 
 #[test]
@@ -104,10 +101,7 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11"
 
 #[test]
 fn check_part2() {
-    assert_eq!(
-        solution(2, None),
-        14427616
-    )
+    assert_eq!(solution(2, None), 14427616)
 }
 
 fn get_input(custom_input: Option<&str>) -> String {
