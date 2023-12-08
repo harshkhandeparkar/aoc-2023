@@ -29,42 +29,6 @@ pub fn solution(part: u32, custom_input: Option<&str>) -> u32 {
         .product::<f64>() as u32
 }
 
-#[test]
-fn check_example_part1() {
-    assert_eq!(
-        solution(
-            1,
-            "Time:      7  15   30
-Distance:  9  40  200"
-                .into()
-        ),
-        288
-    )
-}
-
-#[test]
-fn check_part1() {
-    assert_eq!(solution(1, None), 4811940)
-}
-
-#[test]
-fn check_example_part2() {
-    assert_eq!(
-        solution(
-            2,
-            "Time:      7  15   30
-Distance:  9  40  200"
-                .into()
-        ),
-        71503
-    )
-}
-
-#[test]
-fn check_part2() {
-    assert_eq!(solution(2, None), 30077773)
-}
-
 fn get_input(custom_input: Option<&str>, part: u32) -> (Vec<f64>, Vec<f64>) {
     let raw_input = custom_input.unwrap_or(PUZZLE_INPUT);
 

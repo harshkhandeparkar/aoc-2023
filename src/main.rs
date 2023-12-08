@@ -1,8 +1,10 @@
 use std::io;
 use std::io::prelude::*;
 
-mod solutions;
 mod inputs;
+mod solutions;
+#[cfg(test)]
+mod test;
 
 fn main() {
     let stdin = io::stdin();
