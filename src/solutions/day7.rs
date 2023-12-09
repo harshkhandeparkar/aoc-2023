@@ -2,7 +2,7 @@ use std::{cmp::Ordering, collections::HashMap};
 
 use crate::inputs::day7::PUZZLE_INPUT;
 
-pub fn solution(part: u32, custom_solution: Option<&str>) -> u128 {
+pub fn solution(part: u32, custom_solution: Option<&str>) -> i128 {
     let mut input = get_input(custom_solution, part);
 
     input.sort_by(|a, b| a.cmp(b, part));
@@ -11,7 +11,7 @@ pub fn solution(part: u32, custom_solution: Option<&str>) -> u128 {
         .iter()
         .enumerate()
         .map(|(i, hand)| (i as u32 + 1) * hand.bid)
-        .sum::<u32>() as u128
+        .sum::<u32>() as i128
 }
 
 #[derive(Debug)]

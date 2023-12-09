@@ -1,7 +1,7 @@
 use crate::inputs::day8::PUZZLE_INPUT;
 use std::collections::HashMap;
 
-pub fn solution(part: u32, custom_input: Option<&str>) -> u128 {
+pub fn solution(part: u32, custom_input: Option<&str>) -> i128 {
     let input = get_input(custom_input);
 
     let mut positions: Vec<String> = if part == 1 {
@@ -15,7 +15,7 @@ pub fn solution(part: u32, custom_input: Option<&str>) -> u128 {
             .collect()
     };
 
-    let mut num_steps_arr: Vec<u128> = Vec::new();
+    let mut num_steps_arr: Vec<i128> = Vec::new();
 
     for position in &mut positions {
         let mut num_steps = 0;
@@ -87,7 +87,7 @@ fn get_input(custom_input: Option<&str>) -> ParsedInput {
 }
 
 // copied from https://github.com/TheAlgorithms/Rust/blob/master/src/math/lcm_of_n_numbers.rs
-pub fn lcm(nums: &[u128]) -> u128 {
+pub fn lcm(nums: &[i128]) -> i128 {
     if nums.len() == 1 {
         return nums[0];
     }
@@ -96,7 +96,7 @@ pub fn lcm(nums: &[u128]) -> u128 {
     a * b / gcd_of_two_numbers(a, b)
 }
 
-fn gcd_of_two_numbers(a: u128, b: u128) -> u128 {
+fn gcd_of_two_numbers(a: i128, b: i128) -> i128 {
     if b == 0 {
         return a;
     }
