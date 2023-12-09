@@ -19,6 +19,10 @@ pub fn solution(part: u32, custom_input: Option<&str>) -> i128 {
 
                 differences.push(new_diff_seq.clone());
 
+                if new_diff_seq.iter().all(|&val| val == 0) {
+                    break;
+                }
+
                 prev_diff_seq = new_diff_seq;
                 new_diff_seq = Vec::new();
             }
@@ -28,7 +32,13 @@ pub fn solution(part: u32, custom_input: Option<&str>) -> i128 {
                     .iter()
                     .fold(0, |acc, elem| acc + elem.last().unwrap())
             } else {
-                differences.iter().fold(0, f)
+                let mut extrapolated_value = 0;
+
+                for i in (0..(differences.len() - 1)).rev() {
+                    extrapolated_value = differences[i].first().unwrap() - extrapolated_value;
+                }
+
+                extrapolated_value
             }
         })
         .sum::<i128>()
