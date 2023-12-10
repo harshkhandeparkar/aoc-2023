@@ -1,41 +1,44 @@
 use crate::solutions::day10::solution;
 
 #[test]
-fn check_part1_example() {
+fn check_part1_example1() {
     assert_eq!(
         solution(
             1,
             ".....
-.F-7.
+.S-7.
 .|.|.
 .L-J.
 ....."
                 .into()
         ),
-        0
+        4
+    );
+}
+
+#[test]
+fn check_part1_example2() {
+    assert_eq!(
+        solution(
+            1,
+            "..F7.
+.FJ|.
+SJ.L7
+|F--J
+LJ..."
+                .into()
+        ),
+        8
     );
 }
 
 #[test]
 fn check_part1() {
-    assert_eq!(solution(1, None), 0)
-}
-
-#[test]
-fn check_part2_example() {
-    assert_eq!(
-        solution(
-            2,
-            "0 3 6 9 12 15
-1 3 6 10 15 21
-10 13 16 21 30 45"
-                .into()
-        ),
-        2
-    );
+    assert_eq!(solution(1, None), 6846);
 }
 
 #[test]
 fn check_part2() {
-    assert_eq!(solution(2, None), 0);
+    // assert_eq!(solution(2, None), 0);
+    panic!();
 }

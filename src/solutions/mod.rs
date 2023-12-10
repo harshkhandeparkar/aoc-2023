@@ -22,6 +22,7 @@ pub fn get_solution(day: u32, part: u32) {
             7 => day7::solution(part, None),
             8 => day8::solution(part, None),
             9 => day9::solution(part, None),
+            10 => day10::solution(part, None),
             _ => 0,
         }
     );
