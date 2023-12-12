@@ -15,6 +15,15 @@ pub fn solution(part: u32, custom_input: Option<&str>) -> i128 {
     let mut queue: Vec<Coord> = Vec::new();
     queue.push(start);
 
+    // Keeping track of all the nodes in the loop
+    let mut in_loop = Graph::<bool> {
+        map: graph.map.iter().map(|row| vec![false; row.len()]).collect(),
+        rows: graph.rows,
+        cols: graph.cols,
+    };
+
+    in_loop.set(start, true);
+
     while let Some(u) = queue.pop() {
         let adj_nodes = graph.get_reachable_adj_nodes(u);
 
@@ -24,6 +33,9 @@ pub fn solution(part: u32, custom_input: Option<&str>) -> i128 {
 
             if old_dist == -1 || new_dist < old_dist {
                 queue.push(v);
+                if old_dist == -1 {
+                    in_loop.set(v, true);
+                }
                 distances.set(v, new_dist);
             }
         }
@@ -37,7 +49,53 @@ pub fn solution(part: u32, custom_input: Option<&str>) -> i128 {
             .max()
             .unwrap()
     } else {
-        0
+        let mut num_enclosed: i128 = 0;
+
+        // Explore every node that is not in_loop
+        // If you hit a wall, the nodes are outside: exclude the nodes
+        // If no wall was hit, add the nodes to the list of enclosed nodes
+
+        let mut nodes_under_consideration: Vec<(i32, i32)> = Vec::new();
+        let mut visited = Graph {
+            map: in_loop.map.clone(),
+            rows: in_loop.rows,
+            cols: in_loop.cols
+        };
+
+        for i in 0..(in_loop.rows as i32) {
+            for j in 0..(in_loop.cols as i32) {
+                let node = (i, j);
+
+                if !in_loop.get(node).unwrap() && !visited.get(node).unwrap() {
+                    // If not in loop and not visited explore it
+                    let mut queue = vec![node];
+                    let mut consider_nodes = true;
+
+                    while let Some(node_) = queue.pop() {
+                        if !visited.get(node_).unwrap() {
+                            nodes_under_consideration.push(node_);
+                            visited.set(node_, true);
+
+                            let mut adj_nodes = graph.get_adj_nodes_diag(node_);
+
+                            if adj_nodes.len() < 4 {
+                                // Hit a wall
+                                consider_nodes = false;
+                            }
+                            queue.append(&mut adj_nodes);
+                        }
+                    }
+
+                    if consider_nodes {
+                        println!("{:?}", nodes_under_consideration);
+                        num_enclosed += nodes_under_consideration.len() as i128;
+                    }
+                    nodes_under_consideration.clear();
+                }
+            }
+        }
+
+        num_enclosed
     }
 }
 
@@ -70,6 +128,36 @@ impl<T: Clone + Copy> Graph<T> {
         if let Some(loc) = self.get_mut((x, y)) {
             *loc = value;
         }
+    }
+
+    fn get_adj_nodes(&self, (x, y): Coord) -> Vec<Coord> {
+        let mut adj_nodes = Vec::new();
+
+        for (i, j) in vec![(1, 0), (0, 1), (-1, 0), (0, -1)] {
+            if let Some(_) = self.get((x + i, y + j)) {
+                adj_nodes.push((x + i, y + j));
+            }
+        }
+
+        adj_nodes
+    }
+
+    fn get_adj_nodes_diag(&self, (x, y): Coord) -> Vec<Coord> {
+        let mut adj_nodes = Vec::new();
+
+        for i in -1..=1 {
+            for j in -1..=1 {
+                if i == 0 && j == 0 {
+                    continue;
+                }
+
+                if let Some(_) = self.get((x + i, y + j)) {
+                    adj_nodes.push((x + i, y + j));
+                }
+            }
+        }
+
+        adj_nodes
     }
 }
 
